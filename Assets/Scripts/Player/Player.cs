@@ -4,17 +4,15 @@ using Mirror;
 public class Player : NetworkBehaviour
 {
     [SerializeField] private PlayerInventory playerInventory;
-    public string playerID;
     [SerializeField] private NetworkIdentity networkIdentity;
+    [HideInInspector] public string playerID;
     private IInteractable targetInteractable;
-    private GameObject collidedTarget;
-
     private void Update()
     {
         if (!isLocalPlayer) return;
-        if (Input.GetKeyDown(KeyCode.E) && targetInteractable!=null && collidedTarget!=null)
+        if (Input.GetKeyDown(KeyCode.E) && targetInteractable!=null)
         {
-            CmdAssignAuthority(collidedTarget);
+            CmdInteract(targetInteractable.GetGameObject());
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -26,9 +24,8 @@ public class Player : NetworkBehaviour
             if (_item != null)
             {
                 _item.TriggerEnterOn();
-                _item.InventoryObject = playerInventory.InventoryObject;
+                _item.PlayerInventory = playerInventory;
                 targetInteractable = _item;
-                collidedTarget = other.gameObject;
             }
         }
     }
@@ -41,9 +38,8 @@ public class Player : NetworkBehaviour
             if (_item != null)
             {
                 _item.TriggerExitOn();
-                _item.InventoryObject = null;
+                _item.PlayerInventory = null;
                 targetInteractable = null;
-                collidedTarget = null;
             }
         }
     }
@@ -51,9 +47,10 @@ public class Player : NetworkBehaviour
     private void RpcOnAuthorityAssigned(GameObject _object)
     {
         targetInteractable.Interact();
+        targetInteractable = null;
     }
     [Command]
-    private void CmdAssignAuthority(GameObject _object)
+    private void CmdInteract(GameObject _object)
     {
         _object.GetComponent<NetworkIdentity>().AssignClientAuthority(networkIdentity.connectionToClient);
         RpcOnAuthorityAssigned(_object);

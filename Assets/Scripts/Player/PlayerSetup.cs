@@ -8,7 +8,6 @@ public class PlayerSetup : NetworkBehaviour
     [SerializeField] private Transform cameraFollowTransform;
     public override void OnStartLocalPlayer()
     {
-        base.OnStartLocalPlayer();
         OnLocalPlayerCreated?.Invoke(cameraFollowTransform);
     }
     public override void OnStartClient()

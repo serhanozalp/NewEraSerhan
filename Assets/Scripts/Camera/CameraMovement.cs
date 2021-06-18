@@ -8,13 +8,12 @@ public class CameraMovement : MonoBehaviour
     private float zoomLevel = 1f;
     private CinemachineFreeLook.Orbit[] originalOrbits;
 
-
     [SerializeField] private float zoomSpeed;
     [SerializeField] private float yAxisRotateSpeed;
     [SerializeField] private float xAxisRotateSpeed;
     private void Start()
     {
-        PlayerSetup.OnLocalPlayerCreated += HandlePlayerCreated;
+        PlayerSetup.OnLocalPlayerCreated += HandleLocalPlayerCreated;
         freeLookCam.m_XAxis.m_MaxSpeed = yAxisRotateSpeed;
         freeLookCam.m_YAxis.m_MaxSpeed = xAxisRotateSpeed;
         originalOrbits = new CinemachineFreeLook.Orbit[freeLookCam.m_Orbits.Length];
@@ -24,7 +23,11 @@ public class CameraMovement : MonoBehaviour
             originalOrbits[i].m_Radius = freeLookCam.m_Orbits[i].m_Radius;
         }
     }
-    private void HandlePlayerCreated(Transform _target)
+    private void OnDestroy()
+    {
+        PlayerSetup.OnLocalPlayerCreated -= HandleLocalPlayerCreated;
+    }
+    private void HandleLocalPlayerCreated(Transform _target)
     {
         freeLookCam.Follow = _target;
         freeLookCam.LookAt = _target;

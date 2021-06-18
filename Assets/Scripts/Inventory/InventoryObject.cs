@@ -5,12 +5,13 @@ using UnityEngine;
 public class InventoryObject : ScriptableObject
 {
     [SerializeField] private List<InventorySlot> inventory = new List<InventorySlot>();
+    public List<InventorySlot> Inventory { get { return inventory; } }
     public void AddItem(ItemObject _item, int _amount)
     {
         bool _hasItem = false;
         foreach (InventorySlot _inventorySlot in inventory)
         {
-            if (_inventorySlot.Item == _item)
+            if (_inventorySlot.ItemObject == _item)
             {
                 _inventorySlot.AddAmount(_amount);
                 _hasItem = true;
@@ -22,24 +23,17 @@ public class InventoryObject : ScriptableObject
             inventory.Add(new InventorySlot(_item, _amount));
         }
     }
-    public void ClearInventory()
-    {
-        inventory.Clear();
-    }
-
 }
-
-
 [System.Serializable]
 public class InventorySlot
 {
-    private ItemObject item;
+    private ItemObject itemObject;
     private int amount;
     public float Amount { get { return amount; } }
-    public ItemObject Item { get { return item; } }
+    public ItemObject ItemObject { get { return itemObject; } }
     public InventorySlot(ItemObject _item,int _amount)
     {
-        item = _item;
+        itemObject = _item;
         amount = _amount;
     }
     public void AddAmount(int _amount)

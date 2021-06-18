@@ -5,19 +5,25 @@ public class Item : NetworkBehaviour, IInteractable
 {
     [SerializeField] private ItemObject itemObject;
     [SerializeField] private int amount;
-    private InventoryObject inventoryObject;
-
+    private MeshFilter meshFilter;
+    private MeshRenderer meshRenderer;
+    private PlayerInventory playerInventory;
     public ItemObject ItemObject { get { return itemObject; } }
-    public InventoryObject InventoryObject { set { inventoryObject = value; } }
+    public int Amount { get { return amount; } }
+    public PlayerInventory PlayerInventory { set { playerInventory = value; } }
 
+    private void Start()
+    {
+        meshFilter = gameObject.AddComponent<MeshFilter>();
+        meshRenderer = gameObject.AddComponent<MeshRenderer>();
+        meshFilter.sharedMesh = itemObject.ItemMeshFilter.sharedMesh;
+        meshRenderer.material = itemObject.ItemMaterial;
+        RotateToHorizontal();
+    }
     public void Interact()
     {
-        Debug.Log("Interacting with " + itemObject.ItemName);
-        if (inventoryObject != null)
-        {
-            inventoryObject.AddItem(itemObject, amount);
-            CmdDestroy();
-        }
+        playerInventory.AddItem(itemObject, amount);
+        CmdDestroy();
     }
     public void TriggerEnterOn()
     {
@@ -27,12 +33,20 @@ public class Item : NetworkBehaviour, IInteractable
     {
         transform.localScale = new Vector3(1f, 1f, 1f);
     }
+    public GameObject GetGameObject()
+    {
+        return gameObject;
+    }
     #region Server
     [Command]
     private void CmdDestroy()
     {
-        Destroy(this.gameObject);
+        Destroy(gameObject);
+    }
+    [ServerCallback]
+    private void RotateToHorizontal()
+    {
+        transform.Rotate(new Vector3(90f, 0f, 0f));
     }
     #endregion
-
 }
