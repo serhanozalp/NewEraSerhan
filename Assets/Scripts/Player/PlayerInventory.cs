@@ -1,29 +1,33 @@
 using UnityEngine;
-using UnityEditor;
-using Mirror;
 using System;
+using Mirror;
 
 public class PlayerInventory : MonoBehaviour
 {
-    [SerializeField] private Player player;
-    private InventoryObject inventoryObject;
-    public InventoryObject InventoryObject { get { return inventoryObject; } }
+    [SerializeField] private InventoryObject inventoryObjectPrefab;
+    public InventoryObject inventoryObject;
     public static event Action<InventoryObject> OnInventoryUpdated;
 
-    private void Start()
-    {
-        if (!GetComponent<NetworkIdentity>().isLocalPlayer) return;
-        inventoryObject = ScriptableObject.CreateInstance<InventoryObject>();
-        AssetDatabase.CreateAsset(inventoryObject, "Assets/Scriptable Objects/Inventory/Player" + GetComponent<NetworkIdentity>().netId + "Inventory.asset");
-        AssetDatabase.SaveAssets();
-    }
-    private void OnDestroy()
-    {
-        AssetDatabase.DeleteAsset("Assets/Scriptable Objects/Inventory/Player" + GetComponent<NetworkIdentity>().netId + "Inventory.asset");
-    }
+    //GETTERS SETTERS
+    public InventoryObject InventoryObject { get { return inventoryObject; } }
+
     public void AddItem(ItemObject _item, int _amount)
     {
         inventoryObject.AddItem(_item, _amount);
         OnInventoryUpdated?.Invoke(inventoryObject);
+    }
+    private void Start()
+    {
+        if (!GetComponent<NetworkIdentity>().isLocalPlayer) return;
+        inventoryObject = ScriptableObject.Instantiate(inventoryObjectPrefab);
+        /*
+        inventoryObject = ScriptableObject.CreateInstance<InventoryObject>();
+        AssetDatabase.CreateAsset(inventoryObject, "Assets/Resources/Inventories/Player" + GetComponent<NetworkIdentity>().netId + "Inventory.asset");
+        AssetDatabase.SaveAssets();
+        */
+    }
+    private void OnDestroy()
+    {
+        //AssetDatabase.DeleteAsset("Assets/Resources/Inventories/Player" + GetComponent<NetworkIdentity>().netId + "Inventory.asset");
     }
 }

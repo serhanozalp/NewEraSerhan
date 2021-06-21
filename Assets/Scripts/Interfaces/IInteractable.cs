@@ -2,7 +2,8 @@ using UnityEngine;
 public interface IInteractable 
 {
     GameObject GetGameObject();
-    void Interact();
+    void Interact(PlayerInventory playerInventory);
     void TriggerEnterOn();
     void TriggerExitOn();
 }
+

@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Inventory Object", menuName = "Inventory System/Inventory")]
 public class InventoryObject : ScriptableObject
 {
-    [SerializeField] private List<InventorySlot> inventory = new List<InventorySlot>();
+    private List<InventorySlot> inventory = new List<InventorySlot>();
     public List<InventorySlot> Inventory { get { return inventory; } }
     public void AddItem(ItemObject _item, int _amount)
     {

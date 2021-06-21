@@ -3,26 +3,31 @@ using Mirror;
 
 public class Item : NetworkBehaviour, IInteractable
 {
-    [SerializeField] private ItemObject itemObject;
+    [SerializeField] private ItemObject itemObjectPrefab;
     [SerializeField] private int amount;
+
+
+    private ItemObject itemObject;
+
+
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
-    private PlayerInventory playerInventory;
+
+    //GETTERS SETTERS
     public ItemObject ItemObject { get { return itemObject; } }
     public int Amount { get { return amount; } }
-    public PlayerInventory PlayerInventory { set { playerInventory = value; } }
+
 
     private void Start()
     {
         meshFilter = gameObject.AddComponent<MeshFilter>();
         meshRenderer = gameObject.AddComponent<MeshRenderer>();
-        meshFilter.sharedMesh = itemObject.ItemMeshFilter.sharedMesh;
-        meshRenderer.material = itemObject.ItemMaterial;
-        RotateToHorizontal();
+        meshFilter.sharedMesh = itemObjectPrefab.ItemMeshFilter.sharedMesh;
+        meshRenderer.material = itemObjectPrefab.ItemMaterial;
     }
-    public void Interact()
+    public void Interact(PlayerInventory _playerInventory)
     {
-        playerInventory.AddItem(itemObject, amount);
+        _playerInventory.AddItem(itemObject, amount);
         CmdDestroy();
     }
     public void TriggerEnterOn()
@@ -38,15 +43,18 @@ public class Item : NetworkBehaviour, IInteractable
         return gameObject;
     }
     #region Server
+    public override void OnStartServer()
+    {
+        itemObject = ScriptableObject.Instantiate(itemObjectPrefab);
+        if (itemObject.ItemType == ItemType.Equipment)
+        {
+            (itemObject as EquipmentObject).Randomize();
+        }
+    }
     [Command]
     private void CmdDestroy()
     {
         Destroy(gameObject);
-    }
-    [ServerCallback]
-    private void RotateToHorizontal()
-    {
-        transform.Rotate(new Vector3(90f, 0f, 0f));
     }
     #endregion
 }

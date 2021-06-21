@@ -9,12 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d66610515e8d854da4802678e0490a9, type: 3}
-  m_Name: Sword Of Yarrak
+  m_Script: {fileID: 11500000, guid: ddebfa8f9570cc14fa9780b084f5cf83, type: 3}
+  m_Name: Chest Of Eternity
   m_EditorClassIdentifier: 
-  itemName: Sword Of Yarrak
-  itemSprite: {fileID: 21300000, guid: 5fd50594014b70e48bd6993443d46b32, type: 3}
+  itemName: Chest Of Eternity
+  itemSprite: {fileID: 21300000, guid: 2f1eaeeaad36ee5469eff7ff158f37ba, type: 3}
   itemMeshFilter: {fileID: 3300000, guid: 1958875ebe8c50b4b9cca36e96b6102d, type: 3}
   itemMaterial: {fileID: 2100000, guid: afc35bd692d26df4a831508b0e474de8, type: 2}
-  itemType: 1
-  description: Slashes Like Yarrak...
+  description: 

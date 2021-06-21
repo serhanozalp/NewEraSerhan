@@ -136,7 +136,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 343149517241131020}
-  - component: {fileID: 2577380968599822587}
+  - component: {fileID: -1872705800883271486}
+  - component: {fileID: -7857609276319637359}
   - component: {fileID: -1973557240139736307}
   - component: {fileID: 343149517241131023}
   - component: {fileID: 251009973627803882}
@@ -168,7 +169,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2577380968599822587
+--- !u!114 &-1872705800883271486
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -180,11 +181,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c878082699ce524780180b07e9c85c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7857609276319637359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 343149517241131017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ae9abe45e97de44e91d99117b09eacb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  playerInventory: {fileID: 6648661445459537933}
-  playerID: 
-  networkIdentity: {fileID: 2839470475644242786}
 --- !u!114 &-1973557240139736307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,7 +257,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611f8e7b1641aa84a8640b83c678aace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 2577380968599822587}
+  inventoryObjectPrefab: {fileID: 11400000, guid: e91cd81d9797f6b40907c6067b38ff14,
+    type: 2}
 --- !u!143 &343149517241131022
 CharacterController:
   m_ObjectHideFlags: 0

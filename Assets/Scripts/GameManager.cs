@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,7 +22,6 @@ public class GameManager : MonoBehaviour
     {
         string _playerID = PLAYER_ID_PREFIX + _netID;
         _player.transform.name = _playerID;
-        _player.playerID = _playerID;
         playerDictionary.Add(_playerID, _player);
     }
     public static void UnRegisterPlayer(string _playerID)
